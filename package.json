@@ -1,5 +1,5 @@
 {
-  "name": "marisol_adler",
+  "name": "marisol_adler_website",
   "version": "1.0.0",
   "description": "Website for Marisol Adler",
   "main": "index.js",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Raleo3/marisolAdler/issues"
   },
-  "homepage": "https://github.com/Raleo3/marisolAdler#readme"
+  "homepage": "https://github.com/Raleo3/marisolAdler#readme",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "normalize.css": "^7.0.0"
+  }
 }
