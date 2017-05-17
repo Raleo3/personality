@@ -1,0 +1,19 @@
+{
+  "name": "marisol_adler",
+  "version": "1.0.0",
+  "description": "Website for Marisol Adler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raleo3/marisolAdler.git"
+  },
+  "author": "Richard Leo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raleo3/marisolAdler/issues"
+  },
+  "homepage": "https://github.com/Raleo3/marisolAdler#readme"
+}
