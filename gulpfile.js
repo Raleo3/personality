@@ -2,9 +2,9 @@ var gulp = require("gulp"),
 	watch = require("gulp-watch"),
 	sourcemaps = require('gulp-sourcemaps'),
 	babel = require('gulp-babel'),
-	concat = require('gulp-concat'),
 	rename = require('gulp-rename'),
 	uglify = require('gulp-uglify'),
+	concat = require('gulp-concat'),
 	postcss = require("gulp-postcss"),
 	autoprefixer = require("autoprefixer"),
 	cssvars = require("postcss-simple-vars"),
@@ -27,7 +27,10 @@ gulp.task("babelify", function () {
 		.pipe(babel({
 			presets: ['env']
 		}))
-		.pipe(concat('bundle.js'))
+		.pipe(concat('concat.js'))
+		.pipe(gulp.dest("./app/static/scripts"))
+		.pipe(rename('concat.min.js'))
+		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest("./app/static/scripts"));
 });
