@@ -1,53 +1,64 @@
 var gulp = require("gulp"),
 	watch = require("gulp-watch"),
-	sourcemaps = require('gulp-sourcemaps'),
-	babel = require('gulp-babel'),
-	rename = require('gulp-rename'),
-	uglify = require('gulp-uglify'),
-	concat = require('gulp-concat'),
 	postcss = require("gulp-postcss"),
 	autoprefixer = require("autoprefixer"),
 	cssvars = require("postcss-simple-vars"),
+	mixins = require("postcss-mixins"),
 	nested = require("postcss-nested"),
-	cssImport = require("postcss-import");
+	cssImport = require("postcss-import"),
+	webpack = require("webpack"),
+	browserSync = require('browser-sync').create();
 
-
-gulp.task("html", function () {
-	console.log("something");
-});
 
 gulp.task("styles", function () {
 	return gulp.src("./app/assets/styles/styles.css")
-		.pipe(postcss([cssImport, cssvars, nested, autoprefixer]))
+		.pipe(postcss([cssImport, mixins, cssvars, nested, autoprefixer]))
+		.on("error", function (errorInfo) {
+			console.log(errorInfo.toString());
+			this.emit("end");
+		})
 		.pipe(gulp.dest("./app/static/styles"));
 });
 
-gulp.task("babelify", function () {
-	return gulp.src("./app/assets/scripts/scripts.js")
-		.pipe(sourcemaps.init())
-		.pipe(babel({
-			presets: ['env']
-		}))
-		.pipe(concat('concat.js'))
-		.pipe(gulp.dest("./app/static/scripts"))
-		.pipe(rename('concat.min.js'))
-		.pipe(uglify())
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest("./app/static/scripts"));
+gulp.task("scripts", function (callback) {
+	webpack(require('./webpack.config.js'), function (err, stats) {
+		if (err) {
+			console.log(err.toString());
+		}
+
+		console.log(stats.toString());
+		callback();
+	});
 });
 
 gulp.task("watch", function () {
 
+	// Dev Server on Gulp Watch
+	browserSync.init({
+		server: {
+			baseDir: "app"
+		}
+	});
+
+	// Auto refresh on any change to HTML
 	watch("./app/index.html", function () {
-		gulp.start("html");
+		browserSync.reload();
 	});
 
 	watch("./app/assets/styles/**/*.css", function () {
-		gulp.start("styles");
+		gulp.start("cssInject");
 	});
 
 	watch("./app/assets/scripts/**/*.js", function () {
-		gulp.start("babelify");
+		gulp.start("jsReload");
 	});
 });
 
+gulp.task("cssInject", ['styles'], function () {
+	return gulp.src("./app/static/styles/styles.css")
+		.pipe(browserSync.stream());
+});
+
+gulp.task("jsReload", ['scripts'], function () {
+	browserSync.reload();
+});
