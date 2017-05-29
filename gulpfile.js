@@ -3,6 +3,7 @@ var gulp = require("gulp"),
 	postcss = require("gulp-postcss"),
 	usemin = require("gulp-usemin"),
 	rev = require('gulp-rev'),
+	del = require("del"),
 	uglify = require('gulp-uglify'),
 	cssnano = require('gulp-cssnano'),
 	autoprefixer = require("autoprefixer"),
@@ -83,27 +84,20 @@ gulp.task("jsReload", ['scripts'], function () {
 	browserSync.reload();
 });
 
+gulp.task("useminTrigger", ["deleteDistFolder"], function() {
+	gulp.start("usemin");
+});
+
 // Deletes Dist Folder, Revisions, and Compresses JS & CSS bundle files, sending new PROD-ready versions to Dist folder
-gulp.task("usemin", ["deleteDistFolder", "styles", "scripts"], function() {
-	return gulp.src("./app/index.html")
-		.pipe(usemin({
-			css: [function() {
-				return rev()
-			},
-			function () {
-				return cssnano()
-			}],
-			js: [function () {
-				return rev()
-			},
-			function () {
-				return uglify
-			}]
-		}))
-		.pipe(gulp.dest("./dist"));
-})
+gulp.task('usemin', ['styles', 'scripts'], function() {
+  return gulp.src("./app/index.html")
+    .pipe(usemin({
+      css: [function() {return rev()}, function() {return cssnano()}],
+      js: [function() {return rev()}, function() {return uglify()}]
+    }))
+    .pipe(gulp.dest("./dist"));
+});
 
-
-gulp.task("build", ["deleteDistFolder", "usemin"]);
+gulp.task("build", ["deleteDistFolder", "useminTrigger"]);
 
 
