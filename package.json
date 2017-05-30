@@ -1,21 +1,21 @@
 {
-  "name": "marisol_adler_website",
+  "name": "personality_framework",
   "version": "1.0.0",
-  "description": "Website for Marisol Adler",
+  "description": "A simple framework for building modern webpages",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Raleo3/marisolAdler.git"
+    "url": "git+https://github.com/Raleo3/personalityPage.git"
   },
   "author": "Richard Leo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Raleo3/marisolAdler/issues"
+    "url": "https://github.com/Raleo3/personalityPage/issues"
   },
-  "homepage": "https://github.com/Raleo3/marisolAdler#readme",
+  "homepage": "https://github.com/Raleo3/personalityPage#readme",
   "dependencies": {
     "jquery": "^3.2.1",
     "lazysizes": "^4.0.0-rc1",
